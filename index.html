@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="css/jquery.mobile-1.4.5.css" rel="stylesheet" />
+<link href="css/jquery.mobile.theme-1.4.5.css" rel="stylesheet" />
+<link href="css/jquery.mobile.structure-1.4.5.css" rel="stylesheet" />
+<script type="text/javascript" src="phonegap.js"></script>
+<script src="js/jquery-2.1.4.min.js" type="text/javascript" ></script>
+<script src="js/jquery.mobile-1.4.5.js" type="text/javascript"></script> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sin título</title>
+<script type="text/javascript">
+document.addEventListener("deviceready",function (){
+	$("#btnAgregar").tap(function (){
+		var contacto=navigator.contacts.create();
+		contacto.displayName="Mau";
+		contacto.name=new ContactName();
+		contacto.name.givenName="Mauricio ";	
+		contacto.name.familyName="Lopez Reyes";
+		contacto.phoneNumbers=[];
+		contacto.phoneNumbers=new ContactField("work","276-101-2084",true);
+		contacto.save(function (){alert("Contacto guardado correctamente");},function (error){alert("Error:"+error.code);});		
+	});
+		
+		$("#btnLista").tap(function (){
+			navigator.contacts.find(["*"],function (contactos){
+					var elemento=$("#listContactos");
+					for(i=0;i<contactos.length;i++){
+						var contacto=contactos[i];
+						elemento.append("<li>"+contacto.displayName+"</li>");
+					}
+					elemento.listview('refresh');
+				},function (error){alert("No se ha podido acceder a la lista de contactos: "+error.code);});
+		});
+},false);
+
+</script>
+<style type="text/css">
+	p{
+		text-align:center;
+	}
+</style>
+</head>
+
+<body>
+<div data-role="page" id="principal" data-theme="b">
+	<div data-role="header">
+    	<p>Contactos mau</p>
+    </div> 
+    <div data-role="content">
+    	<p>Manejo de contactos</p>
+        <input type="button" value="Agregar contacto" id="btnAgregar" />
+        <input type="button" value="Mostrar Lista" id="btnLista" />
+        <ul data-role="listview" id="listContactos">
+        	
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+    	<p>Pie de aplicación</p>
+    </div>
+</div>
+
+</body>
+</html>
